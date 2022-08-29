@@ -1,7 +1,7 @@
-import { theme } from './theme';
+import { theme } from './theme'
 
 declare module 'styled-components' {
   export interface DefaultTheme {
-    colors: typeof theme.colors;
+    colors: typeof theme.colors
   }
 }

@@ -1,19 +1,16 @@
-import * as React from 'react';
+import * as React from 'react'
+import { ThemeProvider } from 'styled-components'
 
 import ContrastChecker from './steps/ContrastChecker'
 
-import GlobalStyle from './styles/global';
-import { ThemeProvider } from 'styled-components';
-import { theme } from './styles/theme';
+import GlobalStyle from './styles/global'
+import { theme } from './styles/theme'
 
-const App = ({ }) => {
-  return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
+const App = () => (
+  <ThemeProvider theme={theme}>
+    <GlobalStyle />
+    <ContrastChecker />
+  </ThemeProvider>
+)
 
-      <ContrastChecker />
-    </ThemeProvider>
-  );
-};
-
-export default App;
+export default App

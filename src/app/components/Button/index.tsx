@@ -1,21 +1,21 @@
-import * as React from 'react';
+import * as React from 'react'
 
-import { Container, IContainer } from './styles';
+import { Container, IContainer } from './styles'
 
 interface IProps extends IContainer {
-  onClick: (e?: React.MouseEvent) => any;
-  type?: 'button' | 'submit' | 'reset';
-  disabled?: boolean;
+  onClick: (e?: React.MouseEvent) => void
+  type?: 'button' | 'submit' | 'reset'
+  disabled?: boolean
 }
 
 const Button: React.FC<IProps> = (props) => {
-  const { children, onClick, type = 'button', schema, disabled } = props;
+  const { children, onClick, type = 'button', schema, disabled } = props
 
   return (
     <Container onClick={onClick} type={type} schema={schema} disabled={disabled}>
       {children}
     </Container>
-  );
+  )
 }
 
-export default Button;
+export default Button

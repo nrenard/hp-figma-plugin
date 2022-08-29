@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled, { css } from 'styled-components'
 
 const mapTheme = {
   underline: css`
@@ -13,11 +13,20 @@ export interface IContainer {
 }
 
 export const Container = styled.button<IContainer>`
-  background-color: ${({ theme }) => theme.colors.blue};
-  color: ${({ theme }) => theme.colors.white};
   cursor: pointer;
   border: none;
   padding: 5px 10px;
   border-radius: 5px;
+
+  background-color: ${({ theme }) => theme.colors.blue};
+  color: ${({ theme }) => theme.colors.white};
+
   ${({ schema }) => schema && mapTheme[schema]}
-`;
+
+  ${({ disabled }) =>
+    disabled &&
+    css`
+      opacity: 0.5;
+      cursor: initial;
+    `}
+`

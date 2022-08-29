@@ -1,39 +1,63 @@
-import * as React from 'react';
+import * as React from 'react'
 
-import { EVENTS } from '../../../enums';
-import { ILayer } from '../../../interfaces';
+import { EVENTS } from '../../../enums'
+import { ILayer } from '../../../interfaces'
 
-import Button from '../../components/Button';
-import TestBox from '../../components/TestBox';
+import Button from '../../components/Button'
+import ColorBox from '../../components/ColorBox'
+import TestBox from '../../components/TestBox'
 
-import { Container, WrapperButtons, WrapperTexts} from './styles';
+import { Container, WrapperButtons, WrapperColor, WrapperName, WrapperTexts } from './styles'
 
 const ContrastChecker: React.FC = () => {
-  const [text, setText] = React.useState<ILayer>();
+  const [text, setText] = React.useState<ILayer>()
   const [layer, setLayer] = React.useState<ILayer>()
 
   const onGoToWebAIM = () => {
-    window.open(`https://webaim.org/resources/contrastchecker/?fcolor=${text.color}&bcolor=${layer.color}`);
-  };
+    window.open(
+      `https://webaim.org/resources/contrastchecker/?fcolor=${text.color}&bcolor=${layer.color}`,
+    )
+  }
 
   const onCancel = () => {
-    parent.postMessage({ pluginMessage: { type: 'cancel' } }, '*');
-  };
+    parent.postMessage({ pluginMessage: { type: EVENTS.CLOSE } }, '*')
+  }
 
   React.useEffect(() => {
-    // This is how we read messages sent from the plugin controller
     window.onmessage = (event) => {
-      const data = event.data.pluginMessage;
+      const data = event.data.pluginMessage
 
       if (data.type === EVENTS.CHANGE_SELECTION) {
-        setLayer(data.layer);
-        setText(data.text);
+        setLayer(data.layer)
+        setText(data.text)
       }
-    };
-  }, []);
+    }
+  }, [])
 
+  const buttonCheckerIsAvailable = !!layer && !!text
+  const undefinedValue = 'N/A'
 
-  const buttonCheckerIsAvailable = !!layer && !!text;
+  const renderLabelName = React.useCallback(
+    (name?: string) => (
+      <WrapperName>
+        Name: <span>{name || undefinedValue}</span>
+      </WrapperName>
+    ),
+    [],
+  )
+
+  const renderLabelColor = React.useCallback(
+    (color?: string) => (
+      <WrapperColor>
+        Color:
+        <span>
+          <ColorBox color={color} />
+          {color ? `#${color}` : undefinedValue}
+        </span>
+      </WrapperColor>
+    ),
+    [],
+  )
 
   return (
     <Container>
@@ -44,17 +68,19 @@ const ContrastChecker: React.FC = () => {
       <WrapperTexts>
         <div>
           <strong>Foreground</strong>
+
           <div>
-            <p>Name: <span>{text?.name || 'N/A'}</span></p>
-            <p>Color: <span>{text?.color || 'N/A'}</span></p>
+            {renderLabelName(text?.name)}
+            {renderLabelColor(text?.color)}
           </div>
         </div>
 
         <div>
           <strong>Background</strong>
+
           <div>
-            <p>Name: <span>{layer?.name || 'N/A'}</span></p>
-            <p>Color: <span>{layer?.color || 'N/A'}</span></p>
+            {renderLabelName(layer?.name)}
+            {renderLabelColor(layer?.color)}
           </div>
         </div>
       </WrapperTexts>
@@ -64,7 +90,7 @@ const ContrastChecker: React.FC = () => {
           Check Contrast on WebAIM
         </Button>
 
-        <Button onClick={onCancel} schema="underline">
+        <Button onClick={onCancel} schema='underline'>
           Cancel
         </Button>
       </WrapperButtons>
@@ -72,4 +98,4 @@ const ContrastChecker: React.FC = () => {
   )
 }
 
-export default ContrastChecker;
+export default ContrastChecker

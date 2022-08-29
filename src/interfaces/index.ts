@@ -1,1 +1,1 @@
-export * from './ILayer';
+export * from './ILayer'
